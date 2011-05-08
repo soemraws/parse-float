@@ -48,14 +48,14 @@
 (defun parse-float (string &key (start 0) (end nil)
 		    (radix 10) (junk-allowed nil)
 		    (decimal-character #\.) (exponent-character #\e)
-		    (type 'single-float))
+		    (type *READ-DEFAULT-FLOAT-FORMAT*))
   "Similar to PARSE-INTEGER, but parses a floating point value and
-  returns the value as the specified TYPE (by default a
-  SINGLE-FLOAT). The DECIMAL-CHARACTER (by default #\.) specifies the
-  separator between the integer and decimal parts, and the
-  EXPONENT-CHARACTER (by default #\e, case insensitive) specifies the
-  character before the exponent. Note that the exponent is only parsed
-  if RADIX is 10."
+  returns the value as the specified TYPE (by default
+  *READ-DEFAULT-FLOAT-FORMAT*). The DECIMAL-CHARACTER (by default #\.)
+  specifies the separator between the integer and decimal parts, and
+  the EXPONENT-CHARACTER (by default #\e, case insensitive) specifies
+  the character before the exponent. Note that the exponent is only
+  parsed if RADIX is 10."
   (declare (type string string)
 	   (type integer start radix)
 	   (type character decimal-character exponent-character)
