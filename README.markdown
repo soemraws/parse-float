@@ -1,5 +1,7 @@
 This package exports the following function to parse floating-point values from a string in common lisp.
 
+The information below is purposefully as close as possible to the text and format of [**parse-integer**](http://www.lispworks.com/documentation/HyperSpec/Body/f_parse_.htm "parse-integer in CLHS") in the [Common Lisp HyperSpec](http://www.lispworks.com/documentation/HyperSpec/Front/index.htm "CLHS"), but this package is not related to [LispWorks](http://www.lispworks.com/ "LispWorks") in any way.
+
 ####Syntax:
 
 **parse-float** _string_ &key _start_ _end_ _radix_ _junk-allowed_ _decimal-character_ _exponent-character_ _type_ => _float_, _pos_
@@ -36,7 +38,7 @@ If _junk-allowed_ is _false_, an error of [type](http://www.lispworks.com/docume
 
 The first [value](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_v.htm#value "value in CLHS") returned is either the [float](http://www.lispworks.com/documentation/HyperSpec/Body/t_float.htm#float "float in CLHS") that was parsed, or else [**nil**](http://www.lispworks.com/documentation/HyperSpec/Body/a_nil.htm#nil "nil in CLHS") if no syntactically correct [float](http://www.lispworks.com/documentation/HyperSpec/Body/t_float.htm#float "float in CLHS") was seen but _junk-allowed_ was [true](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_t.htm#true "true in CLHS").
 
-The second [value](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_v.htm#value "value in CLHS") is either the index into the [string](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_s.htm#string "string in CLHS") of the delimiter that terminated the parse, or the upper [bounding index](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_b.htm#bounding_index "bounding index in CLHS") of the substring if the parse terminated at the end of the substring (as is always the case if junk-allowed is [false](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_f.htm#false "false in CLHS")).
+The second [value](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_v.htm#value "value in CLHS") is either the index into the [string](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_s.htm#string "string in CLHS") of the delimiter that terminated the parse, or the upper [bounding index](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_b.htm#bounding_index "bounding index in CLHS") of the substring if the parse terminated at the end of the substring (as is always the case if _junk-allowed_ is [false](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_f.htm#false "false in CLHS")).
 
 ####Examples:
 
@@ -62,4 +64,4 @@ If _junk-allowed_ is [false](http://www.lispworks.com/documentation/HyperSpec/Bo
 
 ####See Also:
 
-[parse-integer](http://www.lispworks.com/documentation/HyperSpec/Body/f_parse_.htm "parse-integer in CLHS"), [parse-number] (https://github.com/sharplispers/parse-number "parse-number on Github")
+[**parse-integer**](http://www.lispworks.com/documentation/HyperSpec/Body/f_parse_.htm "parse-integer in CLHS"), [**parse-number**] (https://github.com/sharplispers/parse-number "parse-number on Github")

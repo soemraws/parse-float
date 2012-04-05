@@ -2,6 +2,9 @@
 
 (in-package #:parse-float)
 
+(eval-when (compile)
+  (declaim (optimize (speed 3) (safety 1))))
+
 (defvar *whitespace-characters* '(#\Space #\Tab #\Return #\Newline #\Linefeed #\Page)
   "List of whitespace characters")
 
