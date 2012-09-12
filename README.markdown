@@ -28,7 +28,7 @@ _pos_---a [bounding index](http://www.lispworks.com/documentation/HyperSpec/Body
 
 ####Description:
 
-**parse-float** parses a [float](http://www.lispworks.com/documentation/HyperSpec/Body/t_float.htm#float "float in CLHS") in the specified _radix_ from the substring of _string_ delimited by _start_ and _end_ into a [float](http://www.lispworks.com/documentation/HyperSpec/Body/t_float.htm#float "float in CLHS") of the given _type_.
+**parse-float** parses a [float](http://www.lispworks.com/documentation/HyperSpec/Body/t_float.htm#float "float in CLHS") in the specified _radix_ from the substring of _string_ delimited by _start_ and _end_ into a [number](http://www.lispworks.com/documentation/HyperSpec/Body/t_number.htm#number "number in CLHS") of the given _type_.
 
 **parse-float** expects an optional sign (+ or -) followed by a a non-empty sequence of digits to be interpreted in the specified _radix_, optionally followed by _decimal-character_, a sequence of digits, _exponent-character_, a sign (+ or -) and a sequence of digits. Optional leading and trailing [whitespace](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_w.htm#whitespace "whitespace in CLHS") is ignored.
 
