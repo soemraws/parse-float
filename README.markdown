@@ -50,6 +50,8 @@ The second [value](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_
  
  `(parse-float "no-integer" :junk-allowed t) =>  NIL, 0`
 
+ `(parse-float "1.2e-3" :type 'number) => 3/2500, 6`
+
 ####Side Effects:
  
 None.
