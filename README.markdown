@@ -20,7 +20,7 @@ _decimal-character_---a [character](http://www.lispworks.com/documentation/Hyper
 
 _exponent-character_---the exponentiation [character](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_c.htm#character "character in CLHS") (case insensitive). The default is `#\e`.
 
-_type_---a [float](http://www.lispworks.com/documentation/HyperSpec/Body/t_float.htm#float "float in CLHS") [type specifier](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_t.htm#type_specifier "type specifier in CLHS"). The default is [**\*READ-DEFAULT-FLOAT-FORMAT\***](http://www.lispworks.com/documentation/HyperSpec/Body/v_rd_def.htm "*READ-DEFAULT-FLOAT-FORMAT* in CLHS").
+_type_---a [number](http://www.lispworks.com/documentation/HyperSpec/Body/t_number.htm#number "number in CLHS") [type specifier](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_t.htm#type_specifier "type specifier in CLHS"). The default is [**\*READ-DEFAULT-FLOAT-FORMAT\***](http://www.lispworks.com/documentation/HyperSpec/Body/v_rd_def.htm "*READ-DEFAULT-FLOAT-FORMAT* in CLHS").
 
 _float_---a [float](http://www.lispworks.com/documentation/HyperSpec/Body/t_float.htm#float "float CLHS"), depending on _type_, or [false](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_f.htm#false "false in CLHS").
 
