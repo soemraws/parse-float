@@ -279,7 +279,8 @@ with #\+ or #\-)."
 		 #'parse-finish))
 
 	     (parse-finish ()
-	       (setf index (skip-whitespaces string :start index :end end))
+	       (unless junk-allowed
+		 (setf index (skip-whitespaces string :start index :end end)))
 	       (if integer-part
 		   (if (or (= index end)
 			   junk-allowed)
@@ -287,8 +288,7 @@ with #\+ or #\-)."
 						       (* decimal-part
 							  (expt radix (- digits))))
 					       (expt 10 exponent-part))
-					    type)
-			     index (skip-whitespaces string :start index :end end))
+					    type))
 		       (simple-parse-error "junk in string ~S." string))
 		   (if junk-allowed
 		       (setf index start)
