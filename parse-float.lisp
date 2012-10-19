@@ -53,9 +53,9 @@
   "Parse an integer from a string, without skipping whitespaces.
 Returns three values: the integer, the position in the string that
 ended the parsing, and a boolean which is T if the parsing ended due
-to a whitespace or end of the string.  If allow-sign is NIL (T by
-default), also signs are not allowed in the string (i.e. cannot start
-with #\+ or #\-)."
+to a whitespace or end of the string, and NIL otherwise.  If
+allow-sign is NIL (T by default), also signs are not allowed in the
+string (i.e. cannot start with #\+ or #\-)."
   (declare (type string string)
 	   (type integer start radix))
   (let ((end (or end (length string)))
@@ -73,8 +73,7 @@ with #\+ or #\-)."
 				 :junk-allowed t
 				 :radix radix)
 		(if (or (= position end)
-			(and (> position start)
-			     (whitespace-char-p (char string (- position 1)))))
+			(whitespace-char-p (char string position)))
 		    (values value position t)
 		    (values value position nil))))))))
 
@@ -190,32 +189,34 @@ with #\+ or #\-)."
 	   (type integer start radix)
 	   (type character decimal-character exponent-character)
 	   (type (or null integer) end))
-  (let ((sign 1)			; sign of the float
-	(digits 0)			; number of decimal digits
-	(index (skip-whitespaces string ; index walking through string
-				 :start start
-				 :end end))
-	(end (or end (length string)))	; end index of the string
-	(integer-part nil)		; parts of the value
-	(decimal-part 0)
-	(exponent-part 0)
-	(result nil))
+  (let* ((sign 1)			; sign of the float
+	 (digits 0)			; number of decimal digits
+	 (end (or end (length string)))	; end index of the string
+	 (index (skip-whitespaces string ; index walking through string
+				  :start start
+				  :end end))
+	 (integer-part nil)		; parts of the value
+	 (decimal-part 0)
+	 (exponent-part 0)
+	 (result nil))                   ; final result
     (declare (type integer sign index end exponent-part)
 	     (type (or null integer) integer-part decimal-part))
     (labels ((parse-sign ()
-	       (let ((char (char string index)))
-		 (cond
-		   ((char= #\- char)
-		    (if (>= (incf index) end)
-			#'parse-finish
-			(progn
-			  (setf sign -1)
-			  #'parse-integer-part)))
-		   ((char= #\+ char)
-		    (if (>= (incf index) end)
-			#'parse-finish
-			#'parse-integer-part))
-		   (t #'parse-integer-part))))
+	       (if (= index end)
+		   #'parse-finish
+		   (let ((char (char string index)))
+		     (cond
+		       ((char= #\- char)
+			(if (>= (incf index) end)
+			    #'parse-finish
+			    (progn
+			      (setf sign -1)
+			      #'parse-integer-part)))
+		       ((char= #\+ char)
+			(if (>= (incf index) end)
+			    #'parse-finish
+			    #'parse-integer-part))
+		       (t #'parse-integer-part)))))
 
 	     (parse-integer-part ()
 	       (multiple-value-bind (value position finished)
@@ -268,12 +269,11 @@ with #\+ or #\-)."
 			   #'parse-finish)))))
 				 
 	     (parse-exponent-part ()
-	       (multiple-value-bind (value position finished)
-		   (parse-integer-only string
-				       :start index
-				       :end end
-				       :allow-sign t)
-		 (declare (ignore finished))
+	       (multiple-value-bind (value position)
+		   (parse-integer string
+				  :start index
+				  :end end
+				  :junk-allowed t)
 		 (setf exponent-part (or value 0)
 		       index position)
 		 #'parse-finish))
@@ -290,15 +290,9 @@ with #\+ or #\-)."
 					       (expt 10 exponent-part))
 					    type))
 		       (simple-parse-error "junk in string ~S." string))
-		   (if junk-allowed
-		       (setf index start)
+		   (unless junk-allowed
 		       (simple-parse-error "junk in string ~S." string)))
-	       nil)
-
-	     #+nil
-	     (show-status ()
-	       (format t "Index: ~A~%Sign: ~A~%Integer part: ~A~%Decimal part: ~A~%Exponent: ~A~%Result: ~A~%"
-		       index sign integer-part decimal-part exponent-part result)))
+	       nil))
 
       (loop with parser = #'parse-sign
 	 while parser
