@@ -57,7 +57,8 @@ to a whitespace or end of the string, and NIL otherwise.  If
 allow-sign is NIL (T by default), also signs are not allowed in the
 string (i.e. cannot start with #\+ or #\-)."
   (declare (type string string)
-	   (type integer start radix))
+	   (type integer start radix)
+	   (type (or null integer) end))
   (let ((end (or end (length string)))
 	(index start))
     (if (>= index end)
@@ -76,103 +77,6 @@ string (i.e. cannot start with #\+ or #\-)."
 			(whitespace-char-p (char string position)))
 		    (values value position t)
 		    (values value position nil))))))))
-
-#+nil
-(defun parse-float (string &key (start 0) (end nil)
-		    (radix 10) (junk-allowed nil)
-		    (decimal-character #\.) (exponent-character #\e)
-		    (type *READ-DEFAULT-FLOAT-FORMAT*))
-  "Similar to PARSE-INTEGER, but parses a floating point value and
-  returns the value as the specified TYPE (by default
-  *READ-DEFAULT-FLOAT-FORMAT*). The DECIMAL-CHARACTER (by default #\.)
-  specifies the separator between the integer and decimal parts, and
-  the EXPONENT-CHARACTER (by default #\e, case insensitive) specifies
-  the character before the exponent. Note that the exponent is only
-  parsed if RADIX is 10."
-  (declare (type string string)
-	   (type integer start radix)
-	   (type character decimal-character exponent-character)
-	   (type (or null integer) end))
-  (let ((sign 1)			; sign of the float
-	(digits 0)			; number of decimal digits
-	(index start)			; walking index
-	(end (or end (length string)))	; end index of the string
-	integer-part			; parts of the value
-	(decimal-part 0)
-	(exponent 0))
-    (declare (type integer sign index end decimal-part exponent)
-	     (type (or null integer) integer-part))
-    (if (= start end)
-	(if junk-allowed
-	    (values nil start)
-	    (simple-parse-error "No non-whitespace characters in string ~S."
-				string))
-	(labels ((process-integer (value position)
-		   (setf index position)
-		   (when value
-		     (setf integer-part value
-			   sign (if (< integer-part 0) -1 1)))
-		   (unless (= index end)
-		     (cond
-		       ((char= (char string index)
-			       decimal-character)
-			(incf index)
-			(unless (or (= index end)
-				    (sign-char-p (char string index))
-				    (whitespace-char-p (char string index)))
-			  #'process-decimal))
-		       ((char-equal (char string index)
-				    exponent-character)
-			(when (and value (= radix 10))
-			  (incf index)
-			  (if (or (= index end)
-				  (whitespace-char-p (char string index)))
-			      (progn (decf index) nil)
-			      #'process-exponent))))))
-		 (process-decimal (value position)
-		   (setf digits (- position index)
-			 index position)
-		   (when value
-		     (setf decimal-part (* sign value)))
-		   (unless (= index end)
-		     (when (and (= radix 10)
-				(char-equal (char string index)
-					    exponent-character))
-		       (incf index)
-		       (if (or (= index end)
-			       (whitespace-char-p (char string index)))
-			   (progn (decf index) nil)
-			   #'process-exponent))))
-		 (process-exponent (value position)
-		   (setf index position)
-		   (if value
-		       (setf exponent value)
-		       (decf index))
-		   nil)
-		 (make-float-value ()
-		   (coerce (* (+ integer-part
-				 (* (or decimal-part 0) (expt radix (- digits))))
-			      (expt 10 exponent))
-			   type)))
-	  (setf index (skip-whitespaces string :start start :end end))
-	  (loop with processor = #'process-integer
-	     while processor
-	     do (multiple-value-bind (value position)
-		    (parse-integer string :start index :end end
-				   :junk-allowed t :radix radix)
-		  (setf processor
-			(funcall processor value position)))
-	     finally
-	     (unless junk-allowed
-	       (setf index (skip-whitespaces string :start index :end end))))
-	  (cond ((or junk-allowed
-		     (and (= index end)
-			  integer-part))
-		 (values (when integer-part (make-float-value)) index))
-		((< index end)
-		 (simple-parse-error "junk in string ~S." string))
-		(t
-		 (simple-parse-error "No non-whitespace characters in string ~S.")))))))
 
 (defun parse-float (string &key (start 0) (end nil)
 		    (radix 10) (junk-allowed nil)
@@ -250,7 +154,7 @@ string (i.e. cannot start with #\+ or #\-)."
 				       :end end
 				       :radix radix
 				       :allow-sign nil)
-		 (setf decimal-part value
+		 (setf decimal-part (or value 0)
 		       digits (- position index)
 		       index position)
 		 (when (and decimal-part
