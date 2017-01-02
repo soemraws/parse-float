@@ -199,11 +199,10 @@ string (i.e. cannot start with #\+ or #\-)."
                (if integer-part
                    (if (or (= index end)
                            junk-allowed)
-                       (setf result (coerce (* sign (+ integer-part
-                                                       (* decimal-part
-                                                          (expt radix (- digits))))
-                                               (expt 10 exponent-part))
-                                            type))
+                       (setf result (* sign (+ (coerce integer-part type)
+					       (* (coerce decimal-part type)
+						  (expt (coerce radix type) (coerce (- digits) type))))
+				       (expt 10 (coerce exponent-part type))))
                        (simple-parse-error "junk in string ~S." string))
                    (unless junk-allowed
                      (simple-parse-error "junk in string ~S." string)))
