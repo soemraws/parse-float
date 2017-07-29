@@ -2,11 +2,11 @@ This package exports the following function to parse floating-point values from 
 
 The information below is purposefully as close as possible to the text and format of [**parse-integer**](http://www.lispworks.com/documentation/HyperSpec/Body/f_parse_.htm "parse-integer in CLHS") in the [Common Lisp HyperSpec](http://www.lispworks.com/documentation/HyperSpec/Front/index.htm "CLHS"), but this package is not related to [LispWorks](http://www.lispworks.com/ "LispWorks") in any way.
 
-####Syntax:
+#### Syntax:
 
 **parse-float** _string_ &key _start_ _end_ _radix_ _junk-allowed_ _decimal-character_ _exponent-character_ _type_ => _float_, _pos_
 
-####Arguments and Values:
+#### Arguments and Values:
 
 _string_---a [string](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_s.htm#string "string in CLHS").
 
@@ -26,7 +26,7 @@ _float_---a [float](http://www.lispworks.com/documentation/HyperSpec/Body/t_floa
 
 _pos_---a [bounding index](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_b.htm#bounding_index "bounding index in CLHS") of _string_.
 
-####Description:
+#### Description:
 
 **parse-float** parses a [float](http://www.lispworks.com/documentation/HyperSpec/Body/t_float.htm#float "float in CLHS") in the specified _radix_ from the substring of _string_ delimited by _start_ and _end_ into a [number](http://www.lispworks.com/documentation/HyperSpec/Body/t_number.htm#number "number in CLHS") of the given _type_.
 
@@ -40,7 +40,7 @@ The first [value](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_v
 
 The second [value](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_v.htm#value "value in CLHS") is either the index into the [string](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_s.htm#string "string in CLHS") of the delimiter that terminated the parse, or the upper [bounding index](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_b.htm#bounding_index "bounding index in CLHS") of the substring if the parse terminated at the end of the substring (as is always the case if _junk-allowed_ is [false](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_f.htm#false "false in CLHS")).
 
-####Examples:
+#### Examples:
 
  `(parse-float "123") =>  123.0, 3`
 
@@ -52,18 +52,18 @@ The second [value](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_
 
  `(parse-float "1.2e-3" :type 'number) => 3/2500, 6`
 
-####Side Effects:
+#### Side Effects:
  
 None.
 
-####Affected By:
+#### Affected By:
 
 None.
 
-####Exceptional Situations:
+#### Exceptional Situations:
 
 If _junk-allowed_ is [false](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_f.htm#false "false in CLHS"), an error is signaled if substring does not consist entirely of the representation of a [float](http://www.lispworks.com/documentation/HyperSpec/Body/t_float.htm#float "float in CLHS"), possibly surrounded on either side by [whitespace](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_w.htm#whitespace "whitespace in CLHS") [characters](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_c.htm#character "character in CLHS").
 
-####See Also:
+#### See Also:
 
 [**parse-integer**](http://www.lispworks.com/documentation/HyperSpec/Body/f_parse_.htm "parse-integer in CLHS"), [**parse-number**] (https://github.com/sharplispers/parse-number "parse-number on Github")
