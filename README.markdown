@@ -42,6 +42,16 @@ The second [value](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_
 
 #### Examples:
 
+Load the package **parse-float**:
+
+ `(ql:quickload "parse-float")`
+
+Import the **parse-float** function:
+
+ `(use-package :parse-float)`
+
+Use the imported **parse-float** function:
+
  `(parse-float "123") =>  123.0, 3`
 
  `(parse-float "123.1" :start 1 :radix 5 :type 'double-float) =>  13.2d0, 5`
