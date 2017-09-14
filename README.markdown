@@ -42,7 +42,7 @@ The second [value](http://www.lispworks.com/documentation/HyperSpec/Body/26_glo_
 
 #### Examples:
 
-Load the package **parse-float**:
+Load the package **parse-float** using [Quicklisp](https://www.quicklisp.org/beta/):
 
  `(ql:quickload "parse-float")`
 
