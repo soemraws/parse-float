@@ -199,10 +199,13 @@ string (i.e. cannot start with #\+ or #\-)."
                (if integer-part
                    (if (or (= index end)
                            junk-allowed)
-                       (setf result (* sign (+ (coerce integer-part type)
-					       (* (coerce decimal-part type)
-						  (expt (coerce radix type) (coerce (- digits) type))))
-				       (expt 10 (coerce exponent-part type))))
+                       (setf result (let ((mantissa
+                                           (* sign (+ (coerce integer-part type)
+                                                      (coerce (* decimal-part
+                                                                 (expt radix (- digits))) type)))))
+                                      (if (minusp exponent-part)
+                                        (/ mantissa (expt 10 (- exponent-part)))
+                                        (* mantissa (expt 10 exponent-part)))))
                        (simple-parse-error "junk in string ~S." string))
                    (unless junk-allowed
                      (simple-parse-error "junk in string ~S." string)))
