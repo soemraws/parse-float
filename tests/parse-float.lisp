@@ -1,9 +1,9 @@
-;;;; parse-float-tests.lisp
+;;;; tests/parse-float.lisp
 
-(defpackage :parse-float-tests
+(defpackage :parse-float/tests
   (:use :common-lisp :lisp-unit :parse-float))
 
-(in-package :parse-float-tests)
+(in-package :parse-float/tests)
 
 (defvar *test-values*
   '(0 1 -1 1/10 -1/10 10 -10 12 -12 1/8 -1/8 123 -123 1/800 -1/800 1234 -1234 1/1600 -1/1600 314159/100000 -314159/100000))
