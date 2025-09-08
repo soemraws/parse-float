@@ -5,6 +5,7 @@
   :description "Parse floating point values in strings."
   :license "Public Domain"
   :author "Sumant Oemrawsingh"
+  :maintainer "Public Domain"
   :depends-on (#:alexandria)
   :components ((:file "package")
                (:file "parse-float"
@@ -15,5 +16,6 @@
   :description "Tests for parse-float."
   :license "Public Domain"
   :author "Sumant Oemrawsingh"
+  :maintainer "Public Domain"
   :depends-on (#:parse-float #:lisp-unit)
   :components ((:file "parse-float-tests")))
